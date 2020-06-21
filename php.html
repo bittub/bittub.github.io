@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<title>swj.dk</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="css/w3.css">
+<link rel="stylesheet" href="css/lato.css">
+<link rel="stylesheet" href="css/montserrat.css">
+<link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+<!-- .fa-linux {font-size:50px} -->
+</style>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-green w3-card-2 w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-green" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="index.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">swj.dk</a>
+    <a href="bash.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">bash</a>
+    <a href="linux.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">linux</a>
+    <a href="php.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">php</a>
+    <a href="python.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">python</a>
+    <a href="web.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">web</a>
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="index.html" class="w3-bar-item w3-button w3-padding-large">swj.dk</a>
+    <a href="bash.html" class="w3-bar-item w3-button w3-padding-large">bash</a>
+    <a href="linux.html" class="w3-bar-item w3-button w3-padding-large">linux</a>
+    <a href="php.html" class="w3-bar-item w3-button w3-padding-large">php</a>
+    <a href="python.html" class="w3-bar-item w3-button w3-padding-large">python</a>
+    <a href="web.html" class="w3-bar-item w3-button w3-padding-large">web</a>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-green w3-center" style="padding:48px 64px 0px">
+  <p><a href="#C1" class="w3-table">ftp</a></p>
+</header>
+
+<!-- #C1 -->
+<div class="w3-row-padding w3-padding-32 w3-container">
+  <div class="w3-content">
+    <div class="w3">
+      <h3 class="w3-padding-16" id="C1">ftp</h3>
+      <p class="w3-text-grey">Siderne på swj.dk opdateres via ftp fra en anden server, som understøtter PHP. Scriptet ligger på en side, som er beskyttet med adgangskode vha. .htaccess. Man kan uploade enkelte sider via ftp, hvor man vil blive bedt om kodeordet til ftp-serveren på swj.dk.</p>
+      <pre><p class="w3-code w3-light-grey">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html" charset="UTF-8"&gt;
+&lt;title&gt;FTP&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;?php
+if(isset($_POST['ftp']))
+     {
+        $ftp = $_POST['ftp'];
+        $username = $_POST['username'];
+        $pwd = $_POST['pwd'];
+        $filename = $_FILES['file']['name'];
+        $tmp = $_FILES['file']['tmp_name'];
+        $d = '/public_html';
+
+        $connect = ftp_connect($ftp) or die("Unable to connect to host");
+        ftp_login($connect,$username,$pwd) or die("Authorization Failed");
+        echo "Connected!&lt;br/&gt;";
+
+        ftp_pasv($connect, true);
+
+        if(!$filename)
+            {
+                echo "Please select a file";
+            }
+        else
+            {
+                ftp_put($connect,$d.'/'.$filename,$tmp,FTP_ASCII) or die("Unable to upload");
+                echo "File successfully uploaded to FTP";
+            }
+    }
+?&gt;
+
+&lt;form action="" method="post" enctype="multipart/form-data"&gt;&lt;br&gt;
+&lt;input type="text" name="ftp" value="FTP-server"&gt;&lt;br&gt;
+&lt;input type="text" name="username" value="Brugernavn"&gt;&lt;br&gt;
+&lt;input type="file" name="file"&gt;&lt;br&gt;
+&lt;input type="password" name="pwd" placeholder="Kodeord"&gt;&lt;br&gt;
+&lt;input type="submit" value="Upload"&gt;&lt;/form&gt;
+&lt;br&gt;
+
+&lt;form action="get.php" method="post"&gt;
+&lt;input type="text" name="fil"&gt;&lt;br&gt;
+&lt;input type="submit" value="Download"&gt;
+&lt;/form&gt;&lt;br&gt;&lt;br&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</p></pre>
+      <p class="w3-text-grey"><a href="https://secure.php.net/manual/en/function.ftp-put.php#113226" target="_blank">Kilde</a></p>
+      <p class="w3-text-grey">Med get.php kan kildekoden for hver enkelt html-fil på swj.dk hentes uden brug af ftp. Der aktiveres en download-dialogboks på tværs af browsere, hvis filen findes, og ellers omdirigeres tilbage til forsiden.</p>
+      <pre><p class="w3-code w3-light-grey">&lt;?php
+
+if($_POST['fil'] == 'ny.sh' OR $_POST['fil'] == 'index.html' OR $_POST['fil'] == 'bash.html' OR $_POST['fil'] == 'linux.html' OR $_POST['fil'] == 'php.html' OR $_POST['fil'] == 'python.html' OR $_POST['fil'] == 'web.html')
+{
+    $fil = $_POST["fil"];
+    $data=file_get_contents('http://swj.dk/'.$fil);
+    header("Content-disposition: attachment; filename=$fil");
+    header('Content-type: text/html');
+    print $data;
+}  else {
+    header("Location: index.php");
+    exit;
+}
+
+?&gt;</p></pre>
+      <p class="w3-text-grey"><a href="http://php.net/manual/en/function.header.php" target="_blank">Kilde</a></p>
+      <p class="w3-text-grey">Opdateret: 06.02.19</p>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-16 w3-center w3-green">
+ <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+</footer>
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else { 
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
+
+</body>
+</html>

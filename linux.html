@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<title>swj.dk</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="css/w3.css">
+<link rel="stylesheet" href="css/lato.css">
+<link rel="stylesheet" href="css/montserrat.css">
+<link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+<!-- .fa-linux {font-size:50px} -->
+</style>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-green w3-card-2 w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-green" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="index.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">swj.dk</a>
+    <a href="bash.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">bash</a>
+    <a href="linux.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">linux</a>
+    <a href="php.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">php</a>
+    <a href="python.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">python</a>
+    <a href="web.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">web</a>
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="index.html" class="w3-bar-item w3-button w3-padding-large">swj.dk</a>
+    <a href="bash.html" class="w3-bar-item w3-button w3-padding-large">bash</a>
+    <a href="linux.html" class="w3-bar-item w3-button w3-padding-large">linux</a>
+    <a href="php.html" class="w3-bar-item w3-button w3-padding-large">php</a>
+    <a href="python.html" class="w3-bar-item w3-button w3-padding-large">python</a>
+    <a href="web.html" class="w3-bar-item w3-button w3-padding-large">web</a>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-green w3-center" style="padding:48px 64px 0px">
+  <p><a href="#C1" class="w3-table">dd</a></p>
+  <p><a href="#C2" class="w3-table">boot</a></p>
+  <p><a href="#C3" class="w3-table">iptables</a></p>
+  <p><a href="#C4" class="w3-table">etherape</a></p>
+  <p><a href="#C5" class="w3-table">vi</a></p>
+  <p><a href="#C6" class="w3-table">multiboot</a></p>
+ </header>
+
+<!-- #C1 -->
+<div class="w3-row-padding w3-padding-32 w3-container">
+  <div class="w3-content">
+    <div class="w3">
+      <h3 class="w3-padding-16" id="C1">dd</h3>
+      <p class="w3-text-grey">Med lsblk findes navnet på det usb-drev, hvortil Linux-iso'en skal skrives. I dette tilfælde er det /dev/sda.</p>
+      <pre><p class="w3-code w3-light-grey">[manjaro@manjaro ~]$ lsblk
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+loop0    7:0    0    77M  1 loop /run/miso/sfs/livefs
+loop1    7:1    0 276,4M  1 loop /run/miso/sfs/mhwdfs
+loop2    7:2    0     1G  1 loop /run/miso/sfs/desktopfs
+loop3    7:3    0 473,2M  1 loop /run/miso/sfs/rootfs
+sda      8:0    1   3,8G  0 disk 
+├─sda1   8:1    1   1,9G  0 part 
+└─sda2   8:2    1     4M  0 part 
+sr0     11:0    1  1024M  0 rom  
+[manjaro@manjaro ~]$</p></pre>
+      <p class="w3-text-grey">Med dd skrives iso'en, hvor bs betyder block size og har indflydelse på skrivehastigheden. Navnet på Linux-iso'en vælges som input file og output file er drevet fundet med lsblk. For at undgå at man fjerner usb-drevet før iso'en er færdigskrevet, så vælges oflag=sync. Status=progress tilføjer en linje, hvor man kan følge med i skrivehastighed og -fremskridt.</p>
+      <pre><p class="w3-code w3-light-grey">sudo dd BS=4M if=linux.iso of=/dev/sda status=progress oflag=sync</p></pre>
+      <p class="w3-text-grey"><a href="https://wiki.archlinux.org/index.php/USB_flash_installation_media" target="_blank">Kilde</a></p>
+      <p class="w3-text-grey">Opdateret: 06.02.19</p>
+    </div>
+  </div>
+</div>
+
+<!-- #C2 -->
+<div class="w3-row-padding w3-light-grey w3-padding-32 w3-container">
+  <div class="w3-content">
+    <div #class="w3">
+      <h3 class="w3-padding-16" id="C2">boot</h3>
+      <p class="w3-text-grey">En Linux-livecd giver normalt mulighed for at redigere boot-parametre vha. en menu før Linux indlæses. De aktive boot-paramtre kan aflæses i /proc/cmdline, når Linux er aflæst.</p>
+      <pre><p class="w3-code">[manjaro@manjaro ~]$ cat /proc/cmdline
+BOOT_IMAGE=/boot/vmlinuz-x86_64 lang=da_DK keytable=dk tz=UTC driver=free nouveau.modeset=1 i915.modeset=1 radeon.modeset=1 misobasedir=manjaro misolabel=M1803PRE quiet systemd.show_status=1 copytoram=y ipv6.disable=1
+[manjaro@manjaro ~]$</p></pre>
+      <p class="w3-text-grey">Et par nyttige boot-parametre er toram/copytoram og ipv6.disable. Med ipv6.disable=1 deaktiveres IPv6-interfacet, så alt trafik kører over IPv4. Muligheden for at indlæse Linux til RAM hedder noget forskelligt på hver enkelt Linux-distribution.</p>
+      <pre><p class="w3-code">toram=1 # Ubuntu og lign. varianter som xubuntu og lubuntu
+copytoram=y # Manjaro og formentlig lign. varianter af Arch</p></pre>
+      <p class="w3-text-grey"><a href="https://forum.manjaro.org/t/boot-entirely-to-ram-and-disconnect-medium/46470" target="_blank">Kilde</a></p>
+      <p class="w3-text-grey"><a href="https://wiki.archlinux.org/index.php/IPv6#Disable_IPv6" target="_blank">Kilde</a></p>
+      <p class="w3-text-grey">Opdateret: 06.02.19</p>
+    </div>
+  </div>
+</div>
+
+<!-- #C3 -->
+<div class="w3-row-padding w3-padding-32 w3-container">
+  <div class="w3-content">
+    <div class="w3">
+      <h3 class="w3-padding-16" id="C3">iptables</h3>
+      <p class="w3-text-grey">Et simpelt sæt af regler for en iptables-firewall. Indgående trafik afvises og udgående trafik tillades. En enkelt udgående IP afvises, i dette tilfælde apollo.archlinux.org.</p>
+      <pre><p class="w3-code w3-light-grey">*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m conntrack --ctstate INVALID -j DROP
+-A OUTPUT -d 138.201.81.199 -j DROP
+COMMIT</p></pre>
+      <p class="w3-text-grey"><a href="https://wiki.archlinux.org/index.php/Simple_stateful_firewall#Resulting_iptables.rules_file" target="_blank">Kilde</a></p>
+      <p class="w3-text-grey">Det samme sæt regler for IPv6, hvor 138.201.81.199 er blevet konverteret til IPv6.</p>
+      <pre><p class="w3-code w3-light-grey">*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m conntrack --ctstate INVALID -j DROP
+-A OUTPUT -d 0:0:0:0:0:FFFF:8AC9:51C7 -j DROP
+COMMIT</p></pre>
+      <p class="w3-text-grey"><a href="https://www.ultratools.com/tools/ipv4toipv6" target="_blank">Kilde</a></p>
+      <p class="w3-text-grey">Reglerne er gemt i filerne ip6tables.rules og iptables.rules, som indlæses med iptables- og ip6tables-restore og kan aflæses med iptables -S.</p>
+      <pre><p class="w3-code w3-light-grey">[manjaro@manjaro ~]$ sudo iptables-restore &lt; iptables.rules
+[manjaro@manjaro ~]$ sudo ip6tables-restore &lt; ip6tables.rules
+[manjaro@manjaro ~]$ sudo iptables -S
+-P INPUT DROP
+-P FORWARD DROP
+-P OUTPUT ACCEPT
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m conntrack --ctstate INVALID -j DROP
+-A OUTPUT -d 138.201.81.199/32 -j DROP
+[manjaro@manjaro ~]$ sudo ip6tables -S
+-P INPUT DROP
+-P FORWARD DROP
+-P OUTPUT ACCEPT
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m conntrack --ctstate INVALID -j DROP
+-A OUTPUT -d ::ffff:138.201.81.199/128 -j DROP
+[manjaro@manjaro ~]$</p></pre>
+      <p class="w3-text-grey">Ønskes afvisningen af apollo.archlinux.org ophævet, så kan det f.eks. gøres ved at aflæse reglerne i kategori og nummerorden og så slette reglen.</p>
+      <pre><p class="w3-code w3-light-grey">[manjaro@manjaro ~]$ sudo iptables -L --line-numbers
+Chain INPUT (policy DROP)
+num  target     prot opt source               destination         
+1    ACCEPT     all  --  anywhere             anywhere             ctstate RELATED,ESTABLISHED
+2    ACCEPT     all  --  anywhere             anywhere            
+3    DROP       all  --  anywhere             anywhere             ctstate INVALID
+
+Chain FORWARD (policy DROP)
+num  target     prot opt source               destination         
+
+Chain OUTPUT (policy ACCEPT)
+num  target     prot opt source               destination         
+1    DROP       all  --  anywhere             apollo.archlinux.org 
+[manjaro@manjaro ~]$ sudo iptables -D OUTPUT 1
+[manjaro@manjaro ~]$</p></pre>
+      <p class="w3-text-grey"><a href="https://www.digitalocean.com/community/tutorials/how-to-list-and-delete-iptables-firewall-rules#delete-rule-by-chain-and-number" target="_blank">Kilde</a></p>
+      <p class="w3-text-grey">Opdateret: 06.02.19</p>
+    </div>
+  </div>
+</div>
+
+<!-- #C4 -->
+<div class="w3-row-padding w3-light-grey w3-padding-32 w3-container">
+  <div class="w3-content">
+    <div #class="w3">
+      <h3 class="w3-padding-16" id="C4">etherape</h3>
+      <p class="w3-text-grey">For at undgå at netværksprogrammet etherape kører som root, og de risici dette ville medføre, så kan der oprettes en ny bruger med de nødvendige rettigheder.</p>
+      <pre><p class="w3-code">sudo setcap 'CAP_NET_RAW+eip CAP_NET_ADMIN+eip' /usr/bin/etherape</p></pre>
+      <p class="w3-text-grey"><a href="https://serverfault.com/questions/538879/how-secure-its-to-run-the-etherape-as-root" target="_blank">Kilde</a></p>
+      <p class="w3-text-grey">Opdateret: 06.02.19</p>
+    </div>
+  </div>
+</div>
+
+<!-- #C5 -->
+<div class="w3-row-padding w3-padding-32 w3-container">
+  <div class="w3-content">
+    <div class="w3">
+      <h3 class="w3-padding-16" id="C5">vi</h3>
+      <p class="w3-text-grey">Nyttige tastekombinationer i Vi.</p>
+      <pre><p class="w3-code w3-light-grey">&lt;ESC&gt;:q!&lt;ENTER&gt;
+	afslut uden at gemme
+:wq	gem fil og afslut
+:w FIL	gem FIL
+&lt;ESC&gt;	normal tilstand
+h, j, k, l
+	flyt markøren til venstre, ned, op eller til højre
+     ---RET---
+&lt;BACKSPACE&gt;
+	ret fejl mens der skrives
+x	slet tegnet som markøren er ovenpå
+i	indsæt her
+a	indsæt efter
+A	indsæt efter linje
+     ---SLET---
+dw	slet resten af ord plus mellemrum
+de	slet resten af ord
+d$	slet til slutningen af linjen
+0	flyt til start af linje
+w	flyt til start af næste ord
+e	flyt til slutning af dette ord eller næste
+4w	flyt fire ord frem
+d5w	slet næste fem ord
+dd	slet linje
+3dd	slet tre linjer
+u	fortryd
+U	fortryd rettelser i linje
+CTRL+R	fortryd fortryd
+     ---INDSÆT---
+p	indsæt slettet tekst efter markør
+	indsæt slettet linje på linjen under
+P	indsæt slettet tekst før markør
+	indsæt slettet linje på linjen over
+r	erstat tegn
+R	erstat flere tegn
+ce	ret indtil slutningen af et ord
+c$	ret resten af linje
+c3w	ret resten af ord plus to
+o	åbn linje under
+O	åbn linje over
+v+y	kopiér markering
+yw	kopiér rest af ord
+     ---PLACERING---
+G	bund
+gg	top
+CTRL+G	placering
+123+G	linje 123
+/	søg
+/+n	søg næste
+/+N	søg forrige
+/.. \c	ignore case
+set ic	ignore case
+..hls	highlight search
+..is	instant search
+noic	normal søgning
+%	match parantes
+s/gl/ny udskift gl til ny én gang
+%s../g	udskift gl til ny overalt
+..c	..med prompt
+#,#s/..	udskift mellem linjer
+     ---SHELL---
+:!	kør shell kommando
+v:w FIL	gemmer visuel markering 
+v:d	slet markering
+:r FIL	indsæt fil
+:r !..	indsæt resultat af shell kommando</p></pre>
+      <p class="w3-text-grey"><a href="http://ex-vi.sourceforge.net/viin/paper.html" target="_blank">Kilde</a></p>
+      <p class="w3-text-grey"><a href="http://ex-vi.sourceforge.net/viin/quickref.pdf" target="_blank">Kilde</a></p>
+      <p class="w3-text-grey">Opdateret: 07.02.19</p>
+    </div>
+  </div>
+</div>
+
+<!-- #C6 -->
+<div class="w3-row-padding w3-light-grey w3-padding-32 w3-container">
+  <div class="w3-content">
+    <div #class="w3">
+      <h3 class="w3-padding-16" id="C6">multiboot</h3>
+      <p class="w3-text-grey">
+En USB-pind med to partitioner, en med ISO-filer af forskellige Linux-udgaver og en til øvrige filer. Med GParted slettes en USB-pind med 'Enhed -&gt; Opret Partitionstabel' og 'msdos' som type af partitionstabel. Opret to partitioner, hvor Linux-ISO'erne skal ligge på den første partition og formateres med fat32, for at gøre USB-pinden UEFI-kompatibel. Højreklik på første partition og vælg 'Håndtér flag' og sæt flueben ved 'boot'. Med 'lsblk' i terminalen aflæses navnet på USB-pindens første partition.
+</p>
+      <pre><p class="w3-code">
+[manjaro@manjaro ~]$ lsblk
+NAME         MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda            8:0    1 28,7G  0 disk 
+├─sda1         8:1    1 25,7G  0 part 
+└─sda2         8:2    1    3G  0 part 
+[manjaro@manjaro ~]$
+</p></pre>
+      <p class="w3-text-grey">
+Montér første partition.
+</p>
+      <pre><p class="w3-code">
+[manjaro@manjaro ~]$ sudo mount /dev/sda1 /mnt
+$ lsblk
+NAME         MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda            8:0    1 28,7G  0 disk 
+├─sda1         8:1    1 25,7G  0 part /mnt
+└─sda2         8:2    1    3G  0 part 
+[manjaro@manjaro ~]$
+</p></pre>
+      <p class="w3-text-grey">
+Opret folderen 'boot'.
+</p>
+      <pre><p class="w3-code">
+[manjaro@manjaro ~]$ sudo mkdir /mnt/boot
+[manjaro@manjaro ~]$ cd /mnt
+[manjaro@manjaro mnt]$ ls
+boot
+[manjaro@manjaro mnt]$
+</p></pre>
+      <p class="w3-text-grey">
+Installér grub så det bliver UEFI-kompatibelt.
+</p>
+      <pre><p class="w3-code">
+[manjaro@manjaro mnt]$ sudo grub-install --target=x86_64-efi --removable --boot-directory=/mnt/boot --efi-directory=/mnt
+</p></pre>
+      <p class="w3-text-grey">
+Kopier nedenstående kode til en tekstfil og gem filen som 'grub.cfg' under folderen '/boot/grub' på USB-pinden. I folderen '/boot/iso' gemmes ISO-filer, så de passer med anden linje i hvert menupunkt i filen 'grub.cfg', f.eks. 'iso=/boot/iso/manjaro.iso' og 'iso=/boot/iso/mx.iso'.
+</p>
+      <pre><p class="w3-code">
+########## DistroWatch Top 10 ##########
+# Indlæst til RAM bortset fra openSUSE #
+########################################
+# https://manjaro.org/download - 080419 - https://osdn.net/projects/manjaro/storage/xfce/18.0.4/manjaro-xfce-18.0.4-stable-x86_64.iso
+menuentry "1. Manjaro 18.0.4 Xfce" {
+	iso=/boot/iso/manjaro.iso
+	set imgdevpath=/dev/disk/by-uuid/CE6B-6D99
+	loopback loop $iso
+	probe --label --set=cd_label (loop)
+	linux (loop)/boot/vmlinuz-x86_64 img_dev=$imgdevpath img_loop=$iso earlymodules=loop misobasedir=manjaro misolabel=$cd_label lang=da_DK keytable=dk tz=Europe/Copenhagen nouveau.modeset=1 i915.modeset=1 radeon.modeset=1 logo.nologo overlay=free copytoram=y showopts
+	initrd (loop)/boot/initramfs-x86_64.img
+}
+# https://mxlinux.org/download-links - 080419 - https://mirrors.dotsrc.org/mx-isos/MX/Final/MX-18.2/MX-18.2_x64.iso
+menuentry "2. MX 18.2" {
+	iso=/boot/iso/mx.iso
+	loopback loop $iso
+	linux (loop)/antiX/vmlinuz fromiso=$iso lang=da_DK kbd=dk tz=Europe/Copenhagen toram
+	initrd (loop)/antiX/initrd.gz
+}
+# https://www.linuxmint.com/download.php - 080419 - https://mirrors.dotsrc.org/linuxmint-cd/stable/19.1/linuxmint-19.1-xfce-64bit.iso
+menuentry "3. Mint 19.1 Xfce" {
+	iso=/boot/iso/mint.iso
+	loopback loop $iso
+	linux (loop)/casper/vmlinuz file=/cdrom/preseed/linuxmint.seed boot=casper iso-scan/filename=$iso locale=da_DK.UTF-8 console-setup/layoutcode=dk toram
+	initrd (loop)/casper/initrd.lz
+}
+# https://elementary.io - 080419 - https://ams3.dl.elementary.io/download/MTU1NDM4MTY2Ng==/elementaryos-5.0-stable.20181016.iso
+menuentry "4. Elementary OS 5.0" {
+	iso=/boot/iso/elementary.iso
+	loopback loop $iso
+	linux (loop)/casper/vmlinuz file=/cdrom/preseed/ubuntu.seed boot=casper iso-scan/filename=$iso locale=da_DK.UTF-8 console-setup/layoutcode=dk toram
+	initrd (loop)/casper/initrd.lz
+}
+# https://www.ubuntu.com/download/alternative-downloads - 080419 - https://mirrors.dotsrc.org/ubuntu-cd/19.04/ubuntu-19.04-beta-desktop-amd64.iso
+menuentry "5. Ubuntu 19.04 Beta" {
+	iso=/boot/iso/ubuntu.iso
+	loopback loop $iso
+	linux (loop)/casper/vmlinuz file=/cdrom/preseed/ubuntu.seed boot=casper iso-scan/filename=$iso locale=da_DK.UTF-8 console-setup/layoutcode=dk toram
+	initrd (loop)/casper/initrd
+}
+# https://www.debian.org/cd - 080419 - https://mirrors.dotsrc.org/debian-cd/9.8.0-live/amd64/iso-hybrid/debian-live-9.8.0-amd64-xfce.iso
+menuentry "6. Debian 9.8.0 Xfce Live" {
+	iso=/boot/iso/debian.iso
+	loopback loop $iso
+	linux (loop)/live/vmlinuz-4.9.0-8-amd64 boot=live components findiso=$iso locales=da_DK.UTF-8 keyboard-layouts=dk toram
+	initrd (loop)/live/initrd.img-4.9.0-8-amd64
+}
+# https://spins.fedoraproject.org - 080419 - https://download.fedoraproject.org/pub/fedora/linux/releases/29/Spins/x86_64/iso/Fedora-LXDE-Live-x86_64-29-1.2.iso
+menuentry "7. Fedora 29.1.2 Lxde" {
+	iso=/boot/iso/fedora.iso
+	loopback loop $iso
+	probe --label --set=cd_label (loop)
+	linux (loop)/isolinux/vmlinuz iso-scan/filename=$iso root=live:CDLABEL=$cd_label rd.live.image rd.live.ram
+	initrd (loop)/isolinux/initrd.img
+}
+# https://getsol.us/download - 080419 - http://solus.fin.veatnet.de/iso/images/4.0/Solus-4.0-MATE.iso
+menuentry "8. Solus 4.0 Mate" {
+	iso=/boot/iso/solus.iso
+	loopback loop $iso
+	probe --label --set=cd_label (loop)
+	linux (loop)/boot/kernel iso-scan/filename=$iso root=live:CDLABEL=$cd_label rd.live.image rd.live.ram
+	initrd (loop)/boot/initrd.img
+}
+# https://software.opensuse.org/distributions/tumbleweed - 080419 - https://download.opensuse.org/tumbleweed/iso/openSUSE-Tumbleweed-XFCE-Live-x86_64-Snapshot20190403-Media.iso
+menuentry "9. openSUSE Tumbleweed Xfce Live Snapshot20190403" {
+	iso=/boot/iso/opensuse.iso
+	loopback loop $iso
+	probe --label --set=cd_label (loop)
+	linux (loop)/boot/x86_64/loader/linux iso-scan/filename=$iso root=live:CDLABEL=$cd_label rd.live.image lang=da_DK keytable=dk
+	initrd (loop)/boot/x86_64/loader/initrd
+}
+# https://zorinos.com/download - 080419 - https://zorinos.com/download/12/lite/64
+menuentry "10. Zorin OS 12.4 Lite" {
+	iso=/boot/iso/zorin.iso
+	loopback loop $iso
+	linux (loop)/casper/vmlinuz file=/cdrom/preseed/ubuntu.seed boot=casper iso-scan/filename=$iso locale=da_DK.UTF-8 console-setup/layoutcode=dk toram
+	initrd (loop)/casper/initrd.lz
+}
+menuentry "Xubuntu 19.04" {
+	iso=/boot/iso/xubuntu.iso
+	loopback loop $iso
+	linux (loop)/casper/vmlinuz file=/cdrom/preseed/xubuntu.seed boot=casper iso-scan/filename=$iso locale=da_DK.UTF-8 console-setup/layoutcode=dk toram
+	initrd (loop)/casper/initrd
+}
+</p></pre>
+      <p class="w3-text-grey"><a href="https://wiki.archlinux.org/index.php/Multiboot_USB_drive#Simple_installation" target="_blank">Kilde</a></p>
+      <p class="w3-text-grey">Opdateret: 30.05.19</p>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-16 w3-center w3-green">  
+ <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+</footer>
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else { 
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<title>swj.dk</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="css/w3.css">
+<link rel="stylesheet" href="css/lato.css">
+<link rel="stylesheet" href="css/montserrat.css">
+<link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+<!-- .fa-linux {font-size:50px} -->
+</style>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-green w3-card-2 w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-green" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="index.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">swj.dk</a>
+    <a href="bash.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">bash</a>
+    <a href="linux.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">linux</a>
+    <a href="php.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">php</a>
+    <a href="python.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">python</a>
+    <a href="web.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">web</a>
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="index.html" class="w3-bar-item w3-button w3-padding-large">swj.dk</a>
+    <a href="bash.html" class="w3-bar-item w3-button w3-padding-large">bash</a>
+    <a href="linux.html" class="w3-bar-item w3-button w3-padding-large">linux</a>
+    <a href="php.html" class="w3-bar-item w3-button w3-padding-large">php</a>
+    <a href="python.html" class="w3-bar-item w3-button w3-padding-large">python</a>
+    <a href="web.html" class="w3-bar-item w3-button w3-padding-large">web</a>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="w3-container w3-green w3-center" style="padding:48px 64px 0px">
+  <p><a href="#C1" class="w3-table">lxml</a></p>
+</header>
+
+<!-- #C1 -->
+<div class="w3-row-padding w3-padding-32 w3-container">
+  <div class="w3-content">
+    <div class="w3">
+      <h3 class="w3-padding-16" id="C1">lxml</h3>
+      <p class="w3-text-grey">Test af 'web scraping' vha. et python-script.</p>
+      <pre><p class="w3-code w3-light-grey">#!/usr/bin/python3.6
+from lxml import html
+import requests
+print("Content-Type: text/html\n\n")
+page = requests.get('http://econpy.pythonanywhere.com/ex/001.html')
+tree = html.fromstring(page.content)
+buyers = tree.xpath('//div[@title="buyer-name"]/text()')
+prices = tree.xpath('//span[@class="item-price"]/text()')
+print('Buyers -&gt; ', buyers)
+print('Prices -&gt; ', prices)</p></pre>
+      <p class="w3-text-grey"><a href="https://docs.python-guide.org/scenarios/scrape/" target="_blank">Kilde</a></p>
+      <p class="w3-text-grey">Opdateret: 27.01.19</p>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-16 w3-center w3-green">  
+ <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+</footer>
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else { 
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
+
+</body>
+</html>
