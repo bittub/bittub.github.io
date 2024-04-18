@@ -1,19 +1,47 @@
-if (document.getElementById('fil').value === 'ny.sh' || document.getElementById('fil').value === 'index.html' || document.getElementById('fil').value === 'bash.html' || document.getElementById('fil').value === 'linux.html' || document.getElementById('fil').value === 'php.html' || document.getElementById('fil').value === 'python.html' || document.getElementById('fil').value === 'web.html') {
-  let fil = document.getElementById('fil').value;
-  fetch('http://swj.dk/' + fil)
-    .then(response => response.text())
-    .then(data => {
-      let downloadLink = document.createElement('a');
-      downloadLink.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURIComponent(data));
-      downloadLink.setAttribute('download', fil);
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      window.location.href = 'index.php';
-    });
-} else {
-  window.location.href = 'index.php';
-}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>File Downloader</title>
+</head>
+<body>
+  <h1>File Downloader</h1>
+
+  <form>
+    <label for="fil">Choose a file to download:</label>
+    <select id="fil">
+      <option value="ny.sh">ny.sh</option>
+      <option value="index.html">index.html</option>
+      <option value="bash.html">bash.html</option>
+      <option value="linux.html">linux.html</option>
+      <option value="php.html">php.html</option>
+      <option value="python.html">python.html</option>
+      <option value="web.html">web.html</option>
+    </select>
+    <button type="button" onclick="downloadFile()">Download</button>
+  </form>
+
+  <script>
+    function downloadFile() {
+      if (document.getElementById('fil').value === 'ny.sh' || document.getElementById('fil').value === 'index.html' || document.getElementById('fil').value === 'bash.html' || document.getElementById('fil').value === 'linux.html' || document.getElementById('fil').value === 'php.html' || document.getElementById('fil').value === 'python.html' || document.getElementById('fil').value === 'web.html') {
+        let fil = document.getElementById('fil').value;
+        fetch('http://swj.dk/' + fil)
+          .then(response => response.text())
+          .then(data => {
+            let downloadLink = document.createElement('a');
+            downloadLink.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURIComponent(data));
+            downloadLink.setAttribute('download', fil);
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            window.location.href = 'index.php';
+          });
+      } else {
+        window.location.href = 'index.php';
+      }
+    }
+  </script>
+</body>
+</html>
