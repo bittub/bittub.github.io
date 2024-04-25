@@ -23,7 +23,7 @@
 
   <script>
     function downloadFile() {
-      if (document.getElementById('fil').value === 'ny/ny.sh' || document.getElementById('fil').value === 'index.html' || document.getElementById('fil').value === 'bash.html' || document.getElementById('fil').value === 'linux.html' || document.getElementById('fil').value === 'php.html' || document.getElementById('fil').value === 'python.html' || document.getElementById('fil').value === 'web.html') {
+      if (document.getElementById('fil').value === 'ny.sh' || document.getElementById('fil').value === 'index.html' || document.getElementById('fil').value === 'bash.html' || document.getElementById('fil').value === 'linux.html' || document.getElementById('fil').value === 'php.html' || document.getElementById('fil').value === 'python.html' || document.getElementById('fil').value === 'web.html') {
         let fil = document.getElementById('fil').value;
         fetch('https://swj.dk/' + fil)
           .then(response => response.text())
