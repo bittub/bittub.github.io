@@ -9,7 +9,7 @@
   <form>
     <label for="fil">Choose a file to download:</label>
     <select id="fil">
-      <option value="ny/ny.sh">ny.sh</option>
+      <option value="ny.sh">ny.sh</option>
       <option value="index.html">index.html</option>
       <option value="bash.html">bash.html</option>
       <option value="linux.html">linux.html</option>
@@ -22,7 +22,7 @@
 
   <script>
     function downloadFile() {
-      if (document.getElementById('fil').value === 'ny.sh' || document.getElementById('fil').value === 'index.html' || document.getElementById('fil').value === 'bash.html' || document.getElementById('fil').value === 'linux.html' || document.getElementById('fil').value === 'php.html' || document.getElementById('fil').value === 'python.html' || document.getElementById('fil').value === 'web.html') {
+      if (document.getElementById('fil').value === 'ny/ny.sh' || document.getElementById('fil').value === 'index.html' || document.getElementById('fil').value === 'bash.html' || document.getElementById('fil').value === 'linux.html' || document.getElementById('fil').value === 'php.html' || document.getElementById('fil').value === 'python.html' || document.getElementById('fil').value === 'web.html') {
         let fil = document.getElementById('fil').value;
         fetch('https://swj.dk/' + fil)
           .then(response => response.text())
@@ -36,10 +36,10 @@
           })
           .catch(error => {
             console.error('Error:', error);
-            window.location.href = 'index.php';
+            window.location.href = 'index.html';
           });
       } else {
-        window.location.href = 'index.php';
+        window.location.href = 'index.html';
       }
     }
   </script>
